@@ -3,63 +3,60 @@
 class Task {
 
     private $conn;
-    private $table = "task";
+    private $table = "tasks";
 
     public function __construct($db) {
         $this->conn = $db;
     }
 
-    // READ
-    public function getTask() {
+    public function createTask() {
 
         $sql = "SELECT * FROM " . $this->table;
+
         $stmt = $this->conn->prepare($sql);
+
         $stmt->execute();
 
         return $stmt->get_result();
     }
 
-    // INSERT
-    public function addTask($task_name, $description, $status) {
+    public function addTask($user_id, $task_name, $description) {
 
         $sql = "INSERT INTO " . $this->table . "
-                (task_name, description, status)
+                (user_id, task_name, description)
                 VALUES (?, ?, ?)";
 
         $stmt = $this->conn->prepare($sql);
 
         $stmt->bind_param(
-            "sss",
+            "iss",
+            $user_id,
             $task_name,
-            $description,
-            $status
+            $description
         );
 
         return $stmt->execute();
     }
 
-    // UPDATE
-    public function updateTask($id, $task_name, $description, $status) {
+    public function update($id, $task_name, $description) {
 
         $sql = "UPDATE " . $this->table . "
-                SET task_name = ?, description = ?, status = ?
+                SET task_name = ?, description = ?
                 WHERE id = ?";
 
         $stmt = $this->conn->prepare($sql);
 
         $stmt->bind_param(
-            "sssi",
+            "ssi",
             $task_name,
             $description,
-            $status,
             $id
         );
 
         return $stmt->execute();
     }
 
-    // DELETE
-    public function deleteTask($id) {
+    public function delete($id) {
 
         $sql = "DELETE FROM " . $this->table . "
                 WHERE id = ?";

@@ -9,8 +9,7 @@ class SubTasks {
         $this->conn = $db;
     }
 
-    // READ
-    public function getSubTasks() {
+    public function index() {
 
         $sql = "SELECT * FROM " . $this->table;
 
@@ -21,8 +20,8 @@ class SubTasks {
         return $stmt->get_result();
     }
 
-    // INSERT
-    public function addSubTask($task_id, $sub_task, $status) {
+
+    public function create($task_id, $sub_task, $status) {
 
         $sql = "INSERT INTO " . $this->table . "
                 (task_id, sub_task, status)
@@ -40,8 +39,7 @@ class SubTasks {
         return $stmt->execute();
     }
 
-    // UPDATE
-    public function updateSubTask($id, $sub_task, $status) {
+    public function update($id, $sub_task, $status) {
 
         $sql = "UPDATE " . $this->table . "
                 SET sub_task = ?, status = ?
@@ -59,8 +57,7 @@ class SubTasks {
         return $stmt->execute();
     }
 
-    // DELETE
-    public function deleteSubTask($id) {
+    public function delete($id) {
 
         $sql = "DELETE FROM " . $this->table . "
                 WHERE id = ?";

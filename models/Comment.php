@@ -9,21 +9,19 @@ class Comment {
         $this->conn = $db;
     }
 
-    // READ
-    public function getComments() {
+    public function getComment() {
 
         $sql = "
             SELECT 
                 comments.id,
                 comments.comment,
                 comments.created_at,
-                sub_tasks.sub_task,
-                sub_tasks.status
+                tasks.task_name,
 
             FROM comments
 
-            INNER JOIN sub_tasks
-            ON comments.sub_task_id = sub_tasks.id
+            INNER JOIN tasks
+            ON comments.task_id = tasks.id
         ";
 
         $stmt = $this->conn->prepare($sql);
@@ -33,26 +31,25 @@ class Comment {
         return $stmt->get_result();
     }
 
-    // INSERT
-    public function addComment($sub_task_id, $comment) {
+    public function create($user_id, $task_id, $comment) {
 
         $sql = "INSERT INTO " . $this->table . "
-                (sub_task_id, comment)
-                VALUES (?, ?)";
+                (user_id, task_id, comment)
+                VALUES (?, ?, ?)";
 
         $stmt = $this->conn->prepare($sql);
 
         $stmt->bind_param(
-            "is",
-            $sub_task_id,
+            "iis",
+            $user_id,
+            $task_id,
             $comment
         );
 
         return $stmt->execute();
     }
 
-    // UPDATE
-    public function updateComment($id, $comment) {
+    public function update($id, $comment) {
 
         $sql = "UPDATE " . $this->table . "
                 SET comment = ?
@@ -69,8 +66,7 @@ class Comment {
         return $stmt->execute();
     }
 
-    // DELETE
-    public function deleteComment($id) {
+    public function delete($id) {
 
         $sql = "DELETE FROM " . $this->table . "
                 WHERE id = ?";
