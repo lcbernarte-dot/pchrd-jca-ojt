@@ -21,7 +21,7 @@ class Task {
     public function addTask($user_id, $task, $description, $status) {
 
         $sql = "INSERT INTO " . $this->table . "
-                (user_id, task, description)
+                (user_id, task, description, status)
                 VALUES (?, ?, ?, ?)";
 
         $stmt = $this->conn->prepare($sql);
@@ -34,7 +34,11 @@ class Task {
             $status
         );
 
-        return $stmt->execute();
+        if ($stmt->execute()) {
+        return $this->conn->insert_id;
+    }
+
+        return false;
     }
 
     public function update($id, $task, $description, $status) {

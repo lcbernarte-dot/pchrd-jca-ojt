@@ -14,6 +14,8 @@ class Comment {
         $sql = "
             SELECT 
                 comments.id,
+                comments.user_id,
+                comments.task_id,
                 comments.comment,
                 comments.created_at,
                 tasks.task
