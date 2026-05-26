@@ -14,43 +14,44 @@ class Task {
         $sql = "SELECT * FROM " . $this->table;
 
         $stmt = $this->conn->prepare($sql);
-
         $stmt->execute();
-
         return $stmt->get_result();
     }
 
-    public function addTask($user_id, $task_name, $description) {
+    public function addTask($user_id, $task, $description, $status) {
 
         $sql = "INSERT INTO " . $this->table . "
-                (user_id, task_name, description)
-                VALUES (?, ?, ?)";
+                (user_id, task, description)
+                VALUES (?, ?, ?, ?)";
 
         $stmt = $this->conn->prepare($sql);
 
         $stmt->bind_param(
-            "iss",
+            "isss",
             $user_id,
-            $task_name,
-            $description
+            $task,
+            $description,
+            $status
         );
 
         return $stmt->execute();
     }
 
-    public function update($id, $task_name, $description) {
+    public function update($id, $task, $description, $status) {
 
         $sql = "UPDATE " . $this->table . "
-                SET task_name = ?, description = ?
+                SET task = ?, description = ?
                 WHERE id = ?";
 
         $stmt = $this->conn->prepare($sql);
 
         $stmt->bind_param(
-            "ssi",
-            $task_name,
+            "sssi",
+            $task,
             $description,
+            $status,
             $id
+
         );
 
         return $stmt->execute();

@@ -35,8 +35,11 @@ class User {
             $hashedPassword
         );
 
-        return $stmt->execute();
+        if($stmt->execute()){
+        return $this->conn->insert_id;
     }
+
+return false;    }
         public function getUsers() {
 
         $sql = "SELECT * FROM " . $this->table;

@@ -1,9 +1,10 @@
 <?php
 
 require_once "config/database.php";
-require_once "models/Users.php";
+require_once "models/User.php";
 require_once "models/Task.php";
 require_once "models/SubTasks.php";
+require_once "models/Comment.php";
 
 $database = new Database();
 $db = $database->connect();
@@ -14,32 +15,30 @@ $subTaskModel = new SubTasks($db);
 $commentModel = new Comment($db);
 
 
-$userModel->create(
+$userId = $userModel->create(
     "Lee",
     "Robin",
     "lee@gmail.com",
     "password"
 );
 
-
-$taskModel->addTask(
+$taskId = $taskModel->addTask(
+    $userId,
     1,
     "Create Dashboard",
     "Build OOP dashboard system"
 );
 
-
 $subTaskModel->create(
-    1,
+    $taskId,
     "Create Navbar",
     "Pending"
 );
 
 $commentModel->create(
-    1,
-    "Create Dashboard",
+    $userId,
+    $taskId,
     "approved by client"
-
 );
 
 echo "Inserted Successfully";

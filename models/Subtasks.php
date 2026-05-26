@@ -42,7 +42,7 @@ class SubTasks {
     public function update($id, $sub_task, $status) {
 
         $sql = "UPDATE " . $this->table . "
-                SET sub_task = ?, status = ?
+                SET sub_task = ?, status = ?, 
                 WHERE id = ?";
 
         $stmt = $this->conn->prepare($sql);
