@@ -16,7 +16,7 @@ class Comment {
                 comments.id,
                 comments.comment,
                 comments.created_at,
-                tasks.task_name,
+                tasks.task
 
             FROM comments
 

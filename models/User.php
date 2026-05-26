@@ -37,6 +37,15 @@ class User {
 
         return $stmt->execute();
     }
-}
+        public function getUsers() {
+
+        $sql = "SELECT * FROM " . $this->table;
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->get_result();
+        }
+    }
 
 ?>
