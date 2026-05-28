@@ -1,3 +1,6 @@
+<?php if (!isset ($taskResult)) return; ?>
+
+
 <div class="card">
 
     <h2>Tasks Table</h2>

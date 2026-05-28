@@ -1,3 +1,5 @@
+<?php if (!isset($userResult)) return; ?>
+
 <div class="card">
 
         <h2>Users Table</h2>

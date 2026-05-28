@@ -1,4 +1,6 @@
-    <div class="card">
+<?php if (!isset ($commentResult)) return; ?>
+
+<div class="card">
 
         <h2>Comments Table</h2>
 

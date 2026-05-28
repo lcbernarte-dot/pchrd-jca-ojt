@@ -1,3 +1,5 @@
+<?php if (!isset ($subtaskResult)) return; ?>
+
 <div class="card">
 
     <h2>Sub Tasks Table</h2>
