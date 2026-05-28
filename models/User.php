@@ -1,11 +1,13 @@
 <?php
 
-class User {
+class User
+{
 
     private $conn;
     private $table = "users";
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->conn = $db;
     }
 
@@ -35,12 +37,14 @@ class User {
             $hashedPassword
         );
 
-        if($stmt->execute()){
-        return $this->conn->insert_id;
-    }
+        if ($stmt->execute()) {
+            return $this->conn->insert_id;
+        }
 
-return false;    }
-        public function getUsers() {
+        return false;
+    }
+        public function getUsers()
+    {
 
         $sql = "SELECT * FROM " . $this->table;
 
@@ -48,7 +52,5 @@ return false;    }
         $stmt->execute();
 
         return $stmt->get_result();
-        }
     }
-
-?>
+}
