@@ -33,12 +33,13 @@ if($result->num_rows > 0){
 
     } else {
 
-        echo "Invalid Password";
+    echo "Invalid Password";
 
-    }
+}
 
-} else {
+    } else {
 
     echo "User Not Found";
+    
 
 }

@@ -18,14 +18,10 @@ if(isset($_SESSION['user_id'])){
 
 <form action="models/Auth.php" method="POST">
 
-    <input type="email" name="email" placeholder="Email" required>
+    <input type="email" name="email" placeholder="Email" required> <br><br>
 
-    <br><br>
-
-    <input type="password" name="password" placeholder="Password" required>
-
-    <br><br>
-
+    <input type="password" name="password" placeholder="Password" required> <br><br>
+    
     <button type="submit">Login</button>
 
 </form>
