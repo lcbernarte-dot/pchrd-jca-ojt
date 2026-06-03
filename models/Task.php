@@ -44,7 +44,7 @@ class Task {
     public function update($id, $task, $description, $status) {
 
         $sql = "UPDATE " . $this->table . "
-                SET task = ?, description = ?
+                SET task = ?, description = ?, status = ?
                 WHERE id = ?";
 
         $stmt = $this->conn->prepare($sql);
