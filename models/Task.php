@@ -18,8 +18,10 @@ class Task {
         return $stmt->get_result();
     }
 
-    public function addTask($user_id, $task, $description, $status) {
+    public function addTask($user_id, $task, $description) {
 
+        $status = "Pending";
+        
         $sql = "INSERT INTO " . $this->table . "
                 (user_id, task, description, status)
                 VALUES (?, ?, ?, ?)";

@@ -25,8 +25,7 @@ $userId = $userModel->create(
 $taskId = $taskModel->addTask(
     $userId,
     "Create Dashboard",
-    "Build OOP dashboard system",
-    "Pending"
+    "Build OOP Dashboard System"
 );
 
 $subTaskModel->create(

@@ -27,9 +27,7 @@ class Comment {
         ";
 
         $stmt = $this->conn->prepare($sql);
-
         $stmt->execute();
-
         return $stmt->get_result();
     }
 
@@ -74,9 +72,7 @@ class Comment {
                 WHERE id = ?";
 
         $stmt = $this->conn->prepare($sql);
-
         $stmt->bind_param("i", $id);
-
         return $stmt->execute();
     }
 }

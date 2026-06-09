@@ -15,13 +15,10 @@ class Auth
         $sql = "SELECT * FROM " . $this->table . " WHERE email = ?";
 
         $stmt = $this->conn->prepare($sql);
-
         $stmt->bind_param("s", $email);
-
         $stmt->execute();
 
         $result = $stmt->get_result();
-
         if ($result->num_rows === 0) {
             return false;
         }
