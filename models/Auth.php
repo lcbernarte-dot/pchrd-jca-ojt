@@ -1,45 +1,37 @@
 <?php
 
-session_start();
+class Auth
+{
+    private $conn;
+    private $table = "users";
 
-require_once "../config/database.php";
+    public function __construct($db)
+    {
+        $this->conn = $db;
+    }
 
-$database = new Database();
-$db = $database->connect();
+    public function login($email, $password)
+    {
+        $sql = "SELECT * FROM " . $this->table . " WHERE email = ?";
 
-$email = $_POST['email'];
-$password = $_POST['password'];
+        $stmt = $this->conn->prepare($sql);
 
-$sql = "SELECT * FROM users WHERE email = ?";
+        $stmt->bind_param("s", $email);
 
-$stmt = $db->prepare($sql);
-$stmt->bind_param("s", $email);
-$stmt->execute();
+        $stmt->execute();
 
-$result = $stmt->get_result();
+        $result = $stmt->get_result();
 
-if($result->num_rows > 0){
+        if ($result->num_rows === 0) {
+            return false;
+        }
 
-    $user = $result->fetch_assoc();
+        $user = $result->fetch_assoc();
 
-    if(password_verify($password, $user['password'])){
+        if (!password_verify($password, $user['password'])) {
+            return false;
+        }
 
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['first_name'] = $user['first_name'];
-        $_SESSION['email'] = $user['email'];
-
-        header("Location: ../index.php");
-        exit;
-
-    } else {
-
-    echo "Invalid Password";
-
-}
-
-    } else {
-
-    echo "User Not Found";
-    
-
+        return $user;
+    }
 }
