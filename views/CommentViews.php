@@ -11,6 +11,7 @@
                 <th>User ID</th>
                 <th>Task ID</th>
                 <th>Comment</th>
+                <th>Actions</th>
             </tr>
 
             <?php
@@ -18,10 +19,25 @@
             ?>
 
             <tr>
-                <td><?php echo $row['id']; ?></td>
-                <td><?php echo $row['user_id']; ?></td>
-                <td><?php echo $row['task_id']; ?></td>
-                <td><?php echo $row['comment']; ?></td>
+                <td><?= $row['id']; ?></td>
+                <td><?= $row['user_id']; ?></td>
+                <td><?= $row['task_id']; ?></td>
+                <td><?= $row['comment']; ?></td>
+                <td>
+                    <a
+                        href="navigation/edit_comment.php?id=<?= $row['id']; ?>"
+                        class="edit-btn"
+                    >
+                        Edit
+                    </a>
+                    <a
+                        href="navgigation/comment_actions.php?action=delete&id=<?= $row['id']; ?>"
+                        class="delete-btn"
+                        onclick="return confirm ('Delete Comment?')"
+                    >
+                        Delete
+                    </a>
+                </td>
             </tr>
 
             <?php } ?>

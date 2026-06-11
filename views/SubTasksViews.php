@@ -11,6 +11,7 @@
             <th>Task ID</th>
             <th>Sub Task</th>
             <th>Status</th>
+            <th>Actions</th>
         </tr>
 
         <?php
@@ -18,10 +19,26 @@
         ?>
 
         <tr>
-            <td><?php echo $row['id']; ?></td>
-            <td><?php echo $row['task_id']; ?></td>
-            <td><?php echo $row['sub_task']; ?></td>
-            <td><?php echo $row['status']; ?></td>
+            <td><?= $row['id']; ?></td>
+            <td><?= $row['task_id']; ?></td>
+            <td><?= $row['sub_task']; ?></td>
+            <td><?= $row['status']; ?></td>
+            <td>
+                <a
+                    href="navigation/edit_subtask.php?id=<?= $row['id']; ?>"
+                    class="edit-btn"
+            >
+                Edit
+                </a>
+
+                <a
+                    href="navigation/subtask_actions.php?actions=delete&id=<?=  $row['id']; ?>"
+                    class="delete-btn"
+                    onclick="return confirm ('Delete Subtask?')"
+            >
+                Delete
+                </a>
+            </td>
         </tr>
 
         <?php } ?>
