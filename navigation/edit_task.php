@@ -16,27 +16,45 @@ $row = $result->fetch_assoc();
 
 <form action="task_actions.php" method="POST">
 
-<select name="user_id" required>
+    <input
+        type="hidden"
+        name="action"
+        value="update"
+    >
 
-    <option value="">
-        Select User
-    </option>
+    <input
+        type="hidden"
+        name="id"
+        value="<?= $row['id']; ?>"
+    >
 
-    <?php
-    $users = $user->getUsers();
+    <input
+        type="text"
+        name="task"
+        value="<?= $row['task']; ?>"
+    >
 
-    while($row = $users->fetch_assoc()){
-    ?>
+    <input
+        type="text"
+        name="description"
+        value="<?= $row['description']; ?>"
+    >
 
-        <option value="<?= $row['id']; ?>">
-            <?= $row['first_name']; ?>
-            <?= $row['last_name']; ?>
-            (ID: <?= $row['id']; ?>)
+    <select name="status">
+
+        <option
+            <?= $row['status']=="Pending"?"selected":"" ?>
+        >
+            Pending
         </option>
 
-    <?php } ?>
+        <option
+            <?= $row['status']=="Completed"?"selected":"" ?>
+        >
+            Completed
+        </option>
 
-</select>
+    </select>
 
     <button type="submit">
         Update

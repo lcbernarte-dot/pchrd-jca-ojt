@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require_once "../config/database.php";
 require_once "../models/Task.php";
 
@@ -9,15 +11,29 @@ $task = new Task($db);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if ($_POST['action'] == 'create') {
+if ($_POST['action'] == 'create') {
 
-        $task->addTask(
-            $_POST['user_id'],
-            $_POST['task'],
-            $_POST['description']
-        );
+    $task_id = $task->addTask(
+        $_POST['user_id'],
+        $_POST['task'],
+        $_POST['description']
+    );
+    if($task_id){
+
+    $_SESSION['success'] = "Task added successfully!";
+
+    header("Location: ../task_details.php?id=" . $task_id);
+    exit;
+    }
+
+    }else{
+
+        $_SESSION['error'] =
+            "❌ Failed to add task.";
 
     }
+
+}
 
     if ($_POST['action'] == 'update') {
 
@@ -30,17 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     }
 
-}
+    if (isset($_GET['action'])&& $_GET['action'] == 'delete') 
+    {
+        $task->delete($_GET['id']);
+    }
 
-if (
-    isset($_GET['action'])
-    &&
-    $_GET['action'] == 'delete'
-) {
-
-    $task->delete($_GET['id']);
-
-}
-
-header("Location: ../index.php");
-exit;

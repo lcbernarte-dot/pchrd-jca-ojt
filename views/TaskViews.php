@@ -25,19 +25,29 @@
             <td><?= $row['description']; ?></td>
             <td><?= $row['status']; ?></td>
             <td>
+
+                <a
+                    href="task_details.php?id=<?= $row['id']; ?>"
+                    class="view-btn"
+                >
+                    View
+                </a>
+
                 <a
                     href="navigation/edit_task.php?id=<?= $row['id']; ?>"
-                    class="edit-btn"    
+                    class="edit-btn"
                 >
                     Edit
                 </a>
-                <a 
-                    href="navigation/task_actions.php?action=delete&id=<? $row["id"]; ?>"
-                    class="delete=btn"
-                    onlick="return confirm('Delete task?')"
+
+                <a
+                    href="navigation/task_actions.php?action=delete&id=<?= $row['id']; ?>"
+                    class="delete-btn"
+                    onclick="return confirm('Delete task?')"
                 >
                     Delete
                 </a>
+
             </td>
 
         </tr>

@@ -16,7 +16,7 @@ if(isset($_SESSION['user_id'])){
 </head>
 <body>
 
-<h2>Login</h2>
+    <h2>Login</h2>
 
 <form action="process_login.php" method="POST">
 

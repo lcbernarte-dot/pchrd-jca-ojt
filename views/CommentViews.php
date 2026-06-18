@@ -31,7 +31,7 @@
                         Edit
                     </a>
                     <a
-                        href="navgigation/comment_actions.php?action=delete&id=<?= $row['id']; ?>"
+                        href="navigation/comment_actions.php?action=delete&id=<?= $row['id']; ?>&task_id=<?= $row['task_id']; ?>"
                         class="delete-btn"
                         onclick="return confirm ('Delete Comment?')"
                     >

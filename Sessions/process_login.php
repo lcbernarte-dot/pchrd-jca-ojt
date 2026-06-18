@@ -23,9 +23,17 @@ if ($user) {
     $_SESSION['first_name'] = $user['first_name'];
     $_SESSION['last_name'] = $user['last_name'];
     $_SESSION['email'] = $user['email'];
+    $_SESSION['role'] = $user['role'];
 
-    header("Location: ../index.php");
+    if ($user['role'] === 'admin') {
+
+        header("Location: ../admin_dashboard.php");
+
+    } else {
+        header("Location: ../index.php");
+    }
+
     exit;
-}
+    }
 
 echo "Invalid Email or Password";

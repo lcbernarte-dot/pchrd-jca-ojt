@@ -20,20 +20,17 @@ class Task {
 
     public function addTask($user_id, $task, $description) {
 
-        $status = "Pending";
-        
         $sql = "INSERT INTO " . $this->table . "
                 (user_id, task, description, status)
-                VALUES (?, ?, ?, ?)";
+                VALUES (?, ?, ?, 'Pending')";
 
         $stmt = $this->conn->prepare($sql);
 
         $stmt->bind_param(
-            "isss",
+            "iss",
             $user_id,
             $task,
             $description,
-            $status
         );
 
         if ($stmt->execute()) {

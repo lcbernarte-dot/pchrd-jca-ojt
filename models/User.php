@@ -15,34 +15,42 @@ class User
         string $first_name,
         string $last_name,
         string $email,
-        string $password
-    ) {
+        string $password,
+        string $role = "user"
+) {
 
-        $hashedPassword = password_hash(
-            $password,
-            PASSWORD_DEFAULT
-        );
+    $hashedPassword = password_hash(
+        $password,
+        PASSWORD_DEFAULT
+    );
 
-        $sql = "INSERT INTO " . $this->table . "
-                (first_name, last_name, email, password)
-                VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO " . $this->table . "
+            (
+                first_name,
+                last_name,
+                email,
+                password,
+                role
+            )
+            VALUES (?, ?, ?, ?, ?)";
 
-        $stmt = $this->conn->prepare($sql);
+    $stmt = $this->conn->prepare($sql);
 
-        $stmt->bind_param(
-            "ssss",
-            $first_name,
-            $last_name,
-            $email,
-            $hashedPassword
-        );
+    $stmt->bind_param(
+        "sssss",
+        $first_name,
+        $last_name,
+        $email,
+        $hashedPassword,
+        $role
+    );
 
-        if ($stmt->execute()) {
-            return $this->conn->insert_id;
-        }
-
-        return false;
+    if ($stmt->execute()) {
+        return $this->conn->insert_id;
     }
+
+    return false;
+}
         public function getUsers()
     {
 
