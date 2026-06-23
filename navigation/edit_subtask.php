@@ -27,6 +27,12 @@ $row = $result->fetch_assoc();
         name="id"
         value="<?= $row['id']; ?>"
     >
+    
+    <input
+        type="hidden"
+        name="task_id"
+        value="<?= $row['task_id']; ?>"
+    >
 
     <input
         type="text"

@@ -29,9 +29,15 @@ $row = $result->fetch_assoc();
     >
 
     <input
+        type="hidden"
+        name="task_id"
+        value="<?= $row ['task_id']; ?>"
+    >
+
+    <input
         type="text"
         name="comment"
-        value="<?= $row['comment']; ?>"
+        value="<?= htmlspecialchars($row['comment']); ?>"
     >
 
     <button type="submit">

@@ -9,7 +9,7 @@ class Task {
         $this->conn = $db;
     }
 
-    public function createTask() {
+    public function getTasks() {
 
         $sql = "SELECT * FROM " . $this->table;
 

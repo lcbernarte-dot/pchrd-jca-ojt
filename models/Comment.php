@@ -31,6 +31,21 @@ class Comment {
         return $stmt->get_result();
     }
 
+    public function getByTaskId($task_id) {
+
+        $sql = "
+            SELECT *
+            FROM comments
+            WHERE task_id = ?
+            ORDER BY id DESC
+        ";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $task_id);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+
     public function create($user_id, $task_id, $comment) {
 
         $sql = "INSERT INTO " . $this->table . "

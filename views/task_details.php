@@ -8,8 +8,12 @@ if(!isset($_SESSION['user_id'])){
 }
 
 require_once "config/database.php";
+require_once "models/SubTasks.php";
+require_once "models/Comment.php";
 
 $db = (new Database())->connect();
+$subTaskModel = new SubTasks($db);
+$commentModel = new Comment($db);
 
 $task_id = $_GET['id'];
 
@@ -19,17 +23,9 @@ $stmt->bind_param("i", $task_id);
 $stmt->execute();
 $task = $stmt->get_result()->fetch_assoc();
 
-$sql = "SELECT * FROM sub_tasks WHERE task_id = ?";
-$stmt = $db->prepare($sql);
-$stmt->bind_param("i", $task_id);
-$stmt->execute();
-$subtasks = $stmt->get_result();
+$subtasks = $subTaskModel->getByTaskId($task_id);
 
-$sql = "SELECT * FROM comments WHERE task_id = ?";
-$stmt = $db->prepare($sql);
-$stmt->bind_param("i", $task_id);
-$stmt->execute();
-$comments = $stmt->get_result();
+$comments = $commentModel->getByTaskId($task_id);
 
 ?>
 
@@ -63,6 +59,13 @@ $comments = $stmt->get_result();
             Status:
             <strong><?= $task['status']; ?></strong>
         </p>
+
+        <a
+            href="task_details.php?id=<?= $task['id']; ?>"
+            class="view-btn"
+        >
+            View
+        </a>
 
         <a
             href="navigation/edit_task.php?id=<?= $task['id']; ?>"
@@ -104,7 +107,7 @@ $comments = $stmt->get_result();
                 </a>
 
                 <a
-                    href="navigation/subtask_actions.php?action=delete&id=<?= $row['id']; ?>"
+                    href="navigation/subtask_actions.php?action=delete&id=<?= $row['id']; ?>&task_id=<?= $task['id']; ?>"
                     class="delete-btn"
                     onclick="return confirm('Delete Subtask?')"
                 >
@@ -180,7 +183,7 @@ $comments = $stmt->get_result();
                 </a>
 
                 <a
-                    href="navigation/comment_actions.php?action=delete&id=<?= $row['id']; ?>"
+                    href="navigation/comment_actions.php?action=delete&id=<?= $row['id']; ?>&task_id=<?= $task['id']; ?>"
                     class="delete-btn"
                     onclick="return confirm('Delete Comment?')"
                 >

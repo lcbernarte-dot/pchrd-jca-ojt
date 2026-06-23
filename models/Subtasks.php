@@ -17,6 +17,16 @@ class SubTasks {
         return $stmt->get_result();
     }
 
+    public function getByTaskId($task_id) {
+
+        $sql = "SELECT * FROM " . $this->table . "
+                WHERE task_id = ?";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $task_id);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
 
     public function create($task_id, $sub_task, $status) {
 
