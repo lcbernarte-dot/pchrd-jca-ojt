@@ -32,10 +32,6 @@ $userResult = $userModel->getUsers();
             Back
         </a>
 
-        <a href="Sessions/logout.php" class="logout-btn">
-            Logout
-        </a>
-
     </div>
 </div>
     <?php include "views/UserViews.php"; ?>

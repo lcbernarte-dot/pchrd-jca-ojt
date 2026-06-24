@@ -32,7 +32,7 @@ class Task {
             $task,
             $description,
         );
-
+        
         if ($stmt->execute()) {
         return $this->conn->insert_id;
     }
