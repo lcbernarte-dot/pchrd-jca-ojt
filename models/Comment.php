@@ -33,15 +33,16 @@ class Comment {
 
     public function getByTaskId($task_id) {
 
-        $sql = "
-            SELECT *
-            FROM comments
-            WHERE task_id = ?
-            ORDER BY id DESC
-        ";
+        $sql = "SELECT * FROM comments
+            WHERE task_id = ?";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("i", $task_id);
+        
+        $stmt->bind_param(
+            "i", 
+            $task_id
+        );
+
         $stmt->execute();
         return $stmt->get_result();
     }

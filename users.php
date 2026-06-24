@@ -32,7 +32,7 @@ $userResult = $userModel->getUsers();
             Back
         </a>
 
-        <a href="logout.php" class="logout-btn">
+        <a href="Sessions/logout.php" class="logout-btn">
             Logout
         </a>
 

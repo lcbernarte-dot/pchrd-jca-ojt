@@ -54,14 +54,20 @@ $comments = $commentModel->getByTaskId($task_id);
 
     <div class="card">
 
+<div class="task-header">
+
+    <div class="task-info">
         <h2><?= $task['task']; ?></h2>
 
         <p><?= $task['description']; ?></p>
 
         <p>
-            Status:
-            <strong><?= $task['status']; ?></strong>
+            <strong>Status:</strong>
+            <?= $task['status']; ?>
         </p>
+    </div>
+
+    <div class="task-actions">
 
         <a
             href="navigation/edit_task.php?id=<?= $task['id']; ?>"
@@ -77,6 +83,10 @@ $comments = $commentModel->getByTaskId($task_id);
         >
             Delete Task
         </a>
+
+    </div>
+
+</div>
 
     </div>
 

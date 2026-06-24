@@ -35,19 +35,6 @@
                     View
                 </a>
 
-                <a
-                    href="navigation/edit_task.php?id=<?= $row['id']; ?>"
-                    class="edit-btn">
-                    Edit
-                </a>
-
-                <a
-                    href="navigation/task_actions.php?action=delete&id=<?= $row['id']; ?>"
-                    class="delete-btn"
-                    onclick="return confirm('Delete Task?')">
-                    Delete
-                </a>
-
             </td>
 
         </tr>
