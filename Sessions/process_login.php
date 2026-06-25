@@ -25,14 +25,12 @@ if ($user) {
     $_SESSION['email'] = $user['email'];
     $_SESSION['role'] = $user['role'];
 
-    if ($user['role'] === 'admin') {
+    if ($user['role'] === 'Administrator' || $user['role'] === 'admin') {
 
         header("Location: ../admin_dashboard.php");
-
     } else {
-        header("Location: ../index.php");
+        header("Location: ../user_task_manager.php");
     }
-
     exit;
     }
 

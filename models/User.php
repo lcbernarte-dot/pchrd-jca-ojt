@@ -45,20 +45,28 @@ class User
         $role
     );
 
-    if ($stmt->execute()) {
-        return $this->conn->insert_id;
-    }
+        if ($stmt->execute()) {
+            return $this->conn->insert_id;
+        }
 
-    return false;
-}
-        public function getUsers()
+        return false;
+    }
+    
+    public function getUsers()
     {
 
         $sql = "SELECT * FROM " . $this->table;
-
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
-
         return $stmt->get_result();
+    }
+
+    public function emailExists($email)
+    {
+        $sql = "SELECT id FROM users WHERE email = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        return $stmt->get_result()->num_rows > 0;
     }
 }

@@ -11,18 +11,32 @@
             <th>Email</th>
             <th>First Name</th>
             <th>Last Name</th>
+            <th>Role</th>
+            <th>Action</th>
         </tr>
 
-        <?php while($row = $userResult->fetch_assoc()){ ?>
+        <?php while($row = $userResult->fetch_assoc()): ?>
 
         <tr>
-            <td><?php echo $row['id']; ?></td>
-            <td><?php echo $row['email']; ?></td>
-            <td><?php echo $row['first_name']; ?></td>
-            <td><?php echo $row['last_name']; ?></td>
+
+            <td><?= $row['id']; ?></td>
+            <td><?= $row['email']; ?></td>
+            <td><?= $row['first_name']; ?></td>
+            <td><?= $row['last_name']; ?></td>
+            <td><?= $row['role']; ?></td>
+
+            <td>
+                <a
+                    href="user_details.php?id=<?= $row['id']; ?>"
+                    class="view-btn"
+                >
+                    View
+                </a>
+            </td>
+
         </tr>
 
-        <?php } ?>
+        <?php endwhile; ?>
 
     </table>
 

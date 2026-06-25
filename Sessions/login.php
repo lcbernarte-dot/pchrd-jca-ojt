@@ -2,8 +2,14 @@
 
 session_start();
 
-if(isset($_SESSION['user_id'])){
-    header("Location: ../index.php");
+if (isset($_SESSION['user_id'])) {
+
+    if ($_SESSION['role'] === 'Administrator') {
+        header("Location: ../admin_dashboard.php");
+    } else {
+        header("Location: ../user_task_manager.php");
+    }
+
     exit;
 }
 

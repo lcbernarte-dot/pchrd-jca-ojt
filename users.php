@@ -27,14 +27,15 @@ $userResult = $userModel->getUsers();
 
         <h1></h1>   
         
-        <div class="header-actions">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-        <a href="index.php" class="users-btn">
+        <div class="header-actions">
+
+        <a href="admin_dashboard.php" class="users-btn">
             Back
         </a>
 
     </div>
 </div>
     <?php include "views/UserViews.php"; ?>
-    
+
 </body>
 </html>

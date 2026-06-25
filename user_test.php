@@ -16,7 +16,7 @@ $user1 = $user->create(
 );
 
 $user2 = $user->create(
-    "Admin",
+    "admin",
     "",
     "admin@gmail.com",
     "password",

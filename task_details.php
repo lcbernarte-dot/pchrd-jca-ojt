@@ -46,7 +46,7 @@ $comments = $commentModel->getByTaskId($task_id);
 
         <h1>Task Details</h1>
 
-        <a href="index.php" class="logout-btn">
+        <a href="user_task_manager.php" class="logout-btn">
             Back
         </a>
 
