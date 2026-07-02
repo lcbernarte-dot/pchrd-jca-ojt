@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && $_POST['action'] === 'create') {
 
         $task_id = $task->addTask(
-            $_SESSION['user_id'],
+            $_POST['user_id'],
             $_POST['task'],
             $_POST['description']
         );

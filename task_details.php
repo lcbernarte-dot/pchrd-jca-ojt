@@ -46,9 +46,11 @@ $comments = $commentModel->getByTaskId($task_id);
 
         <h1>Task Details</h1>
 
-        <a href="user_task_manager.php" class="logout-btn">
-            Back
-        </a>
+        <?php if($_SESSION['role'] == 'Administrator'): ?>
+            <a href="admin_dashboard.php" class="logout-btn">Back</a>
+        <?php else: ?>
+            <a href="user_task_manager.php" class="logout-btn">Back</a>
+        <?php endif; ?>
 
     </div>
 
@@ -57,14 +59,18 @@ $comments = $commentModel->getByTaskId($task_id);
 <div class="task-header">
 
     <div class="task-info">
+
         <h2><?= $task['task']; ?></h2>
 
         <p><?= $task['description']; ?></p>
+
+        <br>
 
         <p>
             <strong>Status:</strong>
             <?= $task['status']; ?>
         </p>
+
     </div>
 
     <div class="task-actions">
@@ -113,7 +119,7 @@ $comments = $commentModel->getByTaskId($task_id);
                 </a>
 
                 <a
-                    href="navigation/subtask_actions.php?action=delete&id=<?= $row['id']; ?>&task_id=<?= $task['id']; ?>"
+                    href="navigation/subtask_actions.php?action=delete&id=<?= $row['id']; ?>"
                     class="delete-btn"
                     onclick="return confirm('Delete Subtask?')"
                 >

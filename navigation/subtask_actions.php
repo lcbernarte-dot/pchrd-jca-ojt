@@ -13,30 +13,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($_POST['action'] == 'create') {
 
-    if(
-        $subtask->create(
-            $_POST['task_id'],
-            $_POST['sub_task'],
-            $_POST['status']
-        )
-    ){
+        if(
+            $subtask->create(
+                $_POST['task_id'],
+                $_POST['sub_task'],
+                $_POST['status']
+            )
+        ){
 
-        $_SESSION['success'] =
-            "✅ Sub Task added successfully!";
+            $updateTask = $db->prepare(
+                "UPDATE tasks SET updated_at = NOW() WHERE id = ?"
+            );
+            $updateTask->bind_param(
+                "i",
+                $_POST['task_id']
+            );
+            $updateTask->execute();
 
-    } else {
+            $_SESSION['success'] =
+                "✅ Sub Task added successfully!";
 
-        $_SESSION['error'] =
-            "❌ Failed to add Sub Task.";
+        } else {
 
-    }
+            $_SESSION['error'] =
+                "❌ Failed to add Sub Task.";
+
+        }
+
         header(
             "Location: ../task_details.php?id=" .
             $_POST['task_id']
         );
         exit;
     }
-    
+
     if ($_POST['action'] == 'update') {
 
         $subtask->update(
@@ -45,9 +55,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_POST['status']
         );
 
-        header("Location: ../task_details.php?id=" . $_POST['task_id']);
+        $updateTask = $db->prepare(
+            "UPDATE tasks SET updated_at = NOW() WHERE id = ?"
+        );
+        $updateTask->bind_param(
+            "i",
+            $_POST['task_id']
+        );
+        $updateTask->execute();
+
+        header(
+            "Location: ../task_details.php?id=" .
+            $_POST['task_id']
+        );
         exit;
-        
     }
 
 }
@@ -59,6 +80,19 @@ if (
 
     $subtask->delete($_GET['id']);
 
-    header("Location: ../task_details.php?id=" . $_GET['task_id']);
+    // UPDATE TASK updated_at
+    $updateTask = $db->prepare(
+        "UPDATE tasks SET updated_at = NOW() WHERE id = ?"
+    );
+    $updateTask->bind_param(
+        "i",
+        $_GET['task_id']
+    );
+    $updateTask->execute();
+
+    header(
+        "Location: ../task_details.php?id=" .
+        $_GET['task_id']
+    );
     exit;
 }

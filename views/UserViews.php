@@ -12,7 +12,7 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Role</th>
-            <th>Action</th>
+            <th></th>
         </tr>
 
         <?php while($row = $userResult->fetch_assoc()): ?>

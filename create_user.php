@@ -1,7 +1,10 @@
 <?php
 session_start();
 
-if ($_SESSION['role'] !== 'admin') {
+if (
+    !isset($_SESSION['user_id']) ||
+    $_SESSION['role'] !== 'Administrator'
+) {
     header("Location: Sessions/login.php");
     exit;
 }
@@ -54,6 +57,12 @@ if ($_SESSION['role'] !== 'admin') {
     <button type="submit">
         Create User
     </button>
+
+
+    <a href="admin_dashboard.php" class="cancel-btn">
+        Cancel
+    </a>
+
 
 </form>
 

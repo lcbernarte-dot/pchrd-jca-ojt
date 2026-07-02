@@ -12,6 +12,7 @@ $stmt = $db->prepare(
 
 $stmt->bind_param("i", $id);
 $stmt->execute();
+
 $user = $stmt->get_result()->fetch_assoc();
 
 if (!$user) {
@@ -98,11 +99,10 @@ $tasks = $taskStmt->get_result();
                 <div class="task-item">
 
                     <div class="task-header">
-
                         <h3>
-                            <a href="task_details.php?id=<?= $task['id']; ?>">
+                            <a href="task_details.php?id=<?= $task['id']; ?>&from=admin&user_id=<?= $user['id']; ?>">
                                 <?= $task['task']; ?>
-                            </a>
+                            </a> 
                         </h3>
 
                         <span class="task-status">
@@ -111,12 +111,24 @@ $tasks = $taskStmt->get_result();
                                 <?= $task['status']; ?>
                             </strong>
                         </span>
-
                     </div>
 
                     <p class="task-description">
                         <?= $task['description']; ?>
                     </p>
+
+                    <div class="task-datetime">
+                        <span>
+                            <strong>Created:</strong>
+                            <?= date("M d, Y h:i A", strtotime($task['created_at'])) ?>
+                        </span>
+
+                        <span>
+                            <strong>Last Updated:</strong>
+                            <?= date("M d, Y h:i A", strtotime($task['updated_at'])) ?>
+                        </span>
+                    </div>
+                     <br>
 
                     <?php
                     $subStmt = $db->prepare(
@@ -150,7 +162,9 @@ $tasks = $taskStmt->get_result();
                         <p>No subtasks found.</p>
 
                     <?php endif; ?>
-
+                    
+                    <br>
+                    
                     <?php
                     $commentStmt = $db->prepare(
                         "SELECT * FROM comments WHERE task_id = ?"

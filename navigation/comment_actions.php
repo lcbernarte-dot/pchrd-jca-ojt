@@ -21,6 +21,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             )
         ) {
 
+            $updateTask = $db->prepare(
+                "UPDATE tasks SET updated_at = NOW() WHERE id = ?"
+            );
+            $updateTask->bind_param(
+                "i",
+                $_POST['task_id']
+            );
+            $updateTask->execute();
+
             $_SESSION['success'] =
                 "✅ Comment added successfully!";
 
@@ -44,6 +53,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_POST['comment']
         );
 
+        $updateTask = $db->prepare(
+            "UPDATE tasks SET updated_at = NOW() WHERE id = ?"
+        );
+        $updateTask->bind_param(
+            "i",
+            $_POST['task_id']
+        );
+        $updateTask->execute();
+
         $_SESSION['success'] =
             "✅ Comment updated successfully!";
 
@@ -61,6 +79,15 @@ if (
 ) {
 
     $comment->delete($_GET['id']);
+
+    $updateTask = $db->prepare(
+        "UPDATE tasks SET updated_at = NOW() WHERE id = ?"
+    );
+    $updateTask->bind_param(
+        "i",
+        $_GET['task_id']
+    );
+    $updateTask->execute();
 
     $_SESSION['success'] =
         "✅ Comment deleted successfully!";
