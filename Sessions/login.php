@@ -30,7 +30,11 @@ if (isset($_SESSION['user_id'])) {
 
     <input type="password" name="password" placeholder="Password" required> <br><br>
     
-    <button type="submit">Login</button>
+    <button type="submit">Login</button> <br><br>
+
+    <a href="../register.php">
+        Create an Account
+    </a>
 
 </form>
 

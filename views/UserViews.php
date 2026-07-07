@@ -32,6 +32,14 @@
                 >
                     View
                 </a>
+                
+                <a
+                    href="navigation/user_actions.php?action=delete&id=<?= $row['id']; ?>"
+                    class="delete-btn"
+                    onclick="return confirm('Are you sure you want to delete this user?');"
+                >
+                    Delete
+                </a>
             </td>
 
         </tr>
