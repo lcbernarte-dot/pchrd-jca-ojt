@@ -14,34 +14,66 @@ $row = $result->fetch_assoc();
 
 ?>
 
-<form action="comment_actions.php" method="POST">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Edit Comment</title>
 
-    <input
-        type="hidden"
-        name="action"
-        value="update"
-    >
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
 
-    <input
-        type="hidden"
-        name="id"
-        value="<?= $row['id']; ?>"
-    >
+<div class="container">
 
-    <input
-        type="hidden"
-        name="task_id"
-        value="<?= $row ['task_id']; ?>"
-    >
+    <div class="task-header">
 
-    <input
-        type="text"
-        name="comment"
-        value="<?= htmlspecialchars($row['comment']); ?>"
-    >
+        <h1>Edit Comment</h1>
 
-    <button type="submit">
-        Update Comment
-    </button>
+        <a
+            href="../task_details.php?id=<?= $row['task_id']; ?>"
+            class="back-btn">
 
-</form>
+            Back
+
+        </a>
+
+    </div>
+
+    <div class="card">
+
+        <form action="comment_actions.php" method="POST">
+
+            <input
+                type="hidden"
+                name="action"
+                value="update">
+
+            <input
+                type="hidden"
+                name="id"
+                value="<?= $row['id']; ?>">
+
+            <input
+                type="hidden"
+                name="task_id"
+                value="<?= $row['task_id']; ?>">
+
+            <input
+                type="text"
+                name="comment"
+                value="<?= htmlspecialchars($row['comment']); ?>"
+                required>
+
+            <button type="submit">
+                Update Comment
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

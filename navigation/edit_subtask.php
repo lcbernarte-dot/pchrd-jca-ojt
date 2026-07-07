@@ -14,52 +14,77 @@ $row = $result->fetch_assoc();
 
 ?>
 
-<form action="subtask_actions.php" method="POST">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Edit Sub Task</title>
 
-    <input
-        type="hidden"
-        name="action"
-        value="update"
-    >
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
 
-    <input
-        type="hidden"
-        name="id"
-        value="<?= $row['id']; ?>"
-    >
-    
-    <input
-        type="hidden"
-        name="task_id"
-        value="<?= $row['task_id']; ?>"
-    >
+<div class="container">
 
-    <input
-        type="text"
-        name="sub_task"
-        value="<?= $row['sub_task']; ?>"
-    >
+    <div class="task-header">
 
-    <select name="status">
+        <h1>Edit Sub Task</h1>
 
-        <option
-            value="Pending"
-            <?= $row['status']=="Pending" ? "selected" : "" ?>
-        >
-            Pending
-        </option>
+        <a
+            href="../task_details.php?id=<?= $row['task_id']; ?>"
+            class="back-btn">
 
-        <option
-            value="Completed"
-            <?= $row['status']=="Completed" ? "selected" : "" ?>
-        >
-            Completed
-        </option>
+            Back
 
-    </select>
+        </a>
 
-    <button type="submit">
-        Update
-    </button>
+    </div>
 
-</form>
+    <div class="card">
+
+        <form action="subtask_actions.php" method="POST">
+
+            <input type="hidden"
+                   name="action"
+                   value="update">
+
+            <input type="hidden"
+                   name="id"
+                   value="<?= $row['id']; ?>">
+
+            <input type="hidden"
+                   name="task_id"
+                   value="<?= $row['task_id']; ?>">
+
+            <input
+                type="text"
+                name="sub_task"
+                value="<?= htmlspecialchars($row['sub_task']); ?>"
+                required>
+
+            <select name="status">
+
+                <option value="Pending"
+                <?= $row['status']=="Pending"?"selected":"" ?>>
+                    Pending
+                </option>
+
+                <option value="Completed"
+                <?= $row['status']=="Completed"?"selected":"" ?>>
+                    Completed
+                </option>
+
+            </select>
+
+            <button type="submit">
+                Update
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>
