@@ -19,24 +19,49 @@ if (isset($_SESSION['user_id'])) {
 <html>
 <head>
     <title>Login</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
 
-    <h2>Login</h2>
+<div class="container">
 
-<form action="process_login.php" method="POST">
+    <div class="card login-card">
 
-    <input type="email" name="email" placeholder="Email" required> <br><br>
+        <h1>Login</h1>
 
-    <input type="password" name="password" placeholder="Password" required> <br><br>
-    
-    <button type="submit">Login</button> <br><br>
+        <form action="process_login.php" method="POST" class="login-form">
 
-    <a href="../register.php">
-        Create an Account
-    </a>
+            <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                required
+            >
 
-</form>
+            <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+            >
+
+            <div class="login-actions">
+
+                <button type="submit" class="login-btn">
+                    Login
+                </button>
+
+                <a href="../register.php" class="register-btn">
+                    Register   
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
 
 </body>
 </html>

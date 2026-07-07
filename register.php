@@ -58,7 +58,6 @@ session_start();
                 required
             >
 
-            <!-- Everyone who registers becomes a User -->
             <input
                 type="hidden"
                 name="role"
@@ -74,7 +73,7 @@ session_start();
         <br>
 
         <a href="Sessions/login.php">
-            Already have an account? Login
+            Already have an account?
         </a>
 
     </div>
