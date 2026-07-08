@@ -55,11 +55,10 @@ $userResult = $userModel->getUsers();
 
             <strong>
                 <?= $_SESSION['first_name']; ?>
-                <?= $_SESSION['last_name']; ?>
             </strong>
 
             <span>
-                (Admin ID: <?= $_SESSION['user_id']; ?>)
+                (ID: <?= $_SESSION['user_id']; ?>)
             </span>
         </div>
     </div>
