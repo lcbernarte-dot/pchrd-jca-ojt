@@ -110,11 +110,6 @@ $taskResult = $taskModel->getTasks();
                 value="create"
             >
             <input
-                type="hidden"
-                name="user_id"
-                value="<?= $_SESSION['user_id']; ?>"
-            >
-            <input
                 type="text"
                 name="task"
                 placeholder="Task Name"

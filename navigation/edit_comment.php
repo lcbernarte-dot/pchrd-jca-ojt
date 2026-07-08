@@ -6,11 +6,29 @@ $db = (new Database())->connect();
 
 $id = $_GET['id'];
 
-$result = $db->query(
-    "SELECT * FROM comments WHERE id = $id"
-);
+session_start();
 
-$row = $result->fetch_assoc();
+$stmt = $db->prepare(
+    "SELECT
+        comments.*,
+        tasks.user_id
+    FROM comments
+    INNER JOIN tasks
+        ON comments.task_id = tasks.id
+    WHERE comments.id = ?"
+    );
+
+$stmt->bind_param("i",$id);
+$stmt->execute();
+
+$row=$stmt->get_result()->fetch_assoc();
+
+$isOwner = $_SESSION['user_id']==$row['user_id'];
+$isAdmin = $_SESSION['role']=="Administrator";
+
+if(!$isOwner && !$isAdmin){
+    die("Access Denied.");
+}
 
 ?>
 

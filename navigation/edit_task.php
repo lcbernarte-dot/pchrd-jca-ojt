@@ -4,13 +4,22 @@ require_once "../config/database.php";
 
 $db = (new Database())->connect();
 
-$id = $_GET['id'];
+session_start();
 
-$result = $db->query(
-    "SELECT * FROM tasks WHERE id = $id"
-);
+$id = (int)$_GET['id'];
 
-$row = $result->fetch_assoc();
+$stmt = $db->prepare("SELECT * FROM tasks WHERE id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+
+$row = $stmt->get_result()->fetch_assoc();
+
+$isOwner = $_SESSION['user_id'] == $row ['user_id'];
+$isAdmin = $_SESSION['role'] == "Administrator"; 
+
+if (!$isOwner && !$isAdmin) {
+    die("Access Denied.");
+}
 
 ?>
 

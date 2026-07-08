@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (
             $comment->create(
-                $_POST['user_id'],
+                $_SESSION['user_id'],
                 $_POST['task_id'],
                 $_POST['comment']
             )
@@ -48,6 +48,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($_POST['action'] == 'update') {
 
+        $stmt = $db->prepare(
+            "SELECT user_id FROM comments WHERE id=?"
+            );
+
+        $stmt->bind_param("i",$_POST['id']);
+        $stmt->execute();
+
+        $owner=$stmt->get_result()->fetch_assoc();
+
+        if(
+        $_SESSION['user_id']!=$owner['user_id']
+        &&
+        $_SESSION['role']!="Administrator"
+        ){
+            die("Access Denied.");
+        }
+
         $comment->update(
             $_POST['id'],
             $_POST['comment']
@@ -71,30 +88,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         );
         exit;
     }
-}
 
-if (
-    isset($_GET['action']) &&
-    $_GET['action'] == 'delete'
-) {
+    }
 
-    $comment->delete($_GET['id']);
+    if (isset($_GET['action']) && $_GET['action'] == 'delete') {
 
-    $updateTask = $db->prepare(
-        "UPDATE tasks SET updated_at = NOW() WHERE id = ?"
-    );
-    $updateTask->bind_param(
-        "i",
-        $_GET['task_id']
-    );
-    $updateTask->execute();
+        $stmt = $db->prepare(
+            "SELECT user_id FROM comments WHERE id=?"
+            );
 
-    $_SESSION['success'] =
-        "✅ Comment deleted successfully!";
+        $stmt->bind_param("i",$_POST['id']);
+        $stmt->execute();
 
-    header(
-        "Location: ../task_details.php?id=" .
-        $_GET['task_id']
-    );
-    exit;
-}
+        $owner=$stmt->get_result()->fetch_assoc();
+
+        if(
+        $_SESSION['user_id']!=$owner['user_id']
+        &&
+        $_SESSION['role']!="Administrator"
+        ){
+            die("Access Denied.");
+        }
+
+        $comment->delete($_GET['id']);
+
+        $updateTask = $db->prepare(
+            "UPDATE tasks SET updated_at = NOW() WHERE id = ?"
+        );
+        $updateTask->bind_param(
+            "i",
+            $_GET['task_id']
+        );
+        $updateTask->execute();
+
+        $_SESSION['success'] =
+            "✅ Comment deleted successfully!";
+
+        header(
+            "Location: ../task_details.php?id=" .
+            $_GET['task_id']
+        );
+        exit;
+    }

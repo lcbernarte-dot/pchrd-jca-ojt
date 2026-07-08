@@ -4,13 +4,35 @@ require_once "../config/database.php";
 
 $db = (new Database())->connect();
 
-$id = $_GET['id'];
+session_start();
 
-$result = $db->query(
-    "SELECT * FROM sub_tasks WHERE id = $id"
-);
+$id = (int)$_GET['id'];
 
-$row = $result->fetch_assoc();
+$stmt = $db->prepare("
+    SELECT
+        sub_tasks.*,
+        tasks.user_id
+    FROM sub_tasks
+    INNER JOIN tasks
+        ON sub_tasks.task_id = tasks.id
+    WHERE sub_tasks.id = ?
+");
+
+$stmt->bind_param("i", $id);
+$stmt->execute();
+
+$row = $stmt->get_result()->fetch_assoc();
+
+if (!$row) {
+    die("Sub Task not found.");
+}
+
+$isOwner = $_SESSION['user_id'] == $row['user_id'];
+$isAdmin = $_SESSION['role'] == "Administrator";
+
+if (!$isOwner && !$isAdmin) {
+    die("Access Denied.");
+}
 
 ?>
 

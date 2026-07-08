@@ -1,4 +1,3 @@
-
 <?php
 
 error_reporting(E_ALL);
@@ -46,61 +45,63 @@ $comments = $commentModel->getByTaskId($task_id);
 
         <h1>Task Details</h1>
 
-        <?php if($_SESSION['role'] == 'Administrator'): ?>
-            <a href="admin_dashboard.php" class="logout-btn">Back</a>
-        <?php else: ?>
-            <a href="user_task_manager.php" class="logout-btn">Back</a>
-        <?php endif; ?>
+            <?php if($_SESSION['role'] == 'Administrator'): ?>
+                <a href="admin_dashboard.php" class="logout-btn">Back</a>
+            <?php else: ?>
+                <a href="user_task_manager.php" class="logout-btn">Back</a>
+            <?php endif; ?>
 
     </div>
 
-    <div class="card">
+<div class="card">
 
-<div class="task-header">
+    <div class="task-header">
 
-    <div class="task-info">
+        <div class="task-info">
 
-        <h2><?= $task['task']; ?></h2>
+            <h2><?= $task['task']; ?></h2>
 
-        <p><?= $task['description']; ?></p>
+            <p><?= $task['description']; ?></p>
 
-        <br>
+            <br>
 
-        <p>
-            <strong>Status:</strong>
-            <?= $task['status']; ?>
-        </p>
+            <p>
+                <strong>Status:</strong>
+                <?= $task['status']; ?>
+            </p>
 
-    </div>
+        </div>
 
-    <div class="task-actions">
+        <div class="task-actions">
 
-        <a
-            href="navigation/edit_task.php?id=<?= $task['id']; ?>"
-            class="edit-btn"
-        >
-            Edit Task
-        </a>
+            <?php
+            $isOwner = $_SESSION['user_id'] == $task['user_id'];
+            $isAdmin = $_SESSION['role'] == "Administrator";
+            ?>
 
-        <a
-            href="navigation/task_actions.php?action=delete&id=<?= $task['id']; ?>"
-            class="delete-btn"
-            onclick="return confirm('Delete Task?')"
-        >
-            Delete Task
-        </a>
+            <?php if($isOwner || $isAdmin): ?>
+
+            <a href="navigation/edit_task.php?id=<?= $task['id']; ?>" class="edit-btn">
+                Edit Task
+            </a>
+
+            <a href="navigation/task_actions.php?action=delete&id=<?= $task['id']; ?>" class="delete-btn">
+                Delete Task
+            </a>    
+
+            <?php endif; ?>
+
+        </div>
 
     </div>
 
 </div>
 
-    </div>
-
     <div class="card">
 
         <h2>Sub Tasks</h2>
 
-        <?php while($row = $subtasks->fetch_assoc()): ?>
+            <?php while($row = $subtasks->fetch_assoc()): ?>
 
         <div class="item-row">
 
@@ -109,30 +110,34 @@ $comments = $commentModel->getByTaskId($task_id);
                 (<?= $row['status']; ?>)
             </span>
 
-            <div>
+        <div>
+
+            <?php if($isOwner || $isAdmin): ?>
 
                 <a
                     href="navigation/edit_subtask.php?id=<?= $row['id']; ?>"
-                    class="edit-btn"
-                >
+                    class="edit-btn">
                     Edit
                 </a>
 
                 <a
                     href="navigation/subtask_actions.php?action=delete&id=<?= $row['id']; ?>"
                     class="delete-btn"
-                    onclick="return confirm('Delete Subtask?')"
-                >
+                    onclick="return confirm('Delete Subtask?')">
                     Delete
                 </a>
+
+            <?php endif; ?>
 
             </div>
 
         </div>
 
-        <?php endwhile; ?>
+            <?php endwhile; ?>
 
         <hr><br>
+        
+            <?php if($isOwner || $isAdmin): ?>
 
         <form action="navigation/subtask_actions.php" method="POST">
 
@@ -172,6 +177,7 @@ $comments = $commentModel->getByTaskId($task_id);
             </button>
 
         </form>
+            <?php endif; ?>
 
     </div>
 
@@ -179,34 +185,42 @@ $comments = $commentModel->getByTaskId($task_id);
 
         <h2>Comments</h2>
 
-        <?php while($row = $comments->fetch_assoc()): ?>
+            <?php while($row = $comments->fetch_assoc()): ?>
 
         <div class="item-row">
 
             <span><?= $row['comment']; ?></span>
 
-            <div>
+        <div>
+            <?php
+            $canManageComment=
+                ($_SESSION['user_id']==$row['user_id']) || $isAdmin;
+            ?>
 
-                <a
-                    href="navigation/edit_comment.php?id=<?= $row['id']; ?>"
-                    class="edit-btn"
-                >
-                    Edit
-                </a>
+            <?php if ($canManageComment): ?>
 
-                <a
-                    href="navigation/comment_actions.php?action=delete&id=<?= $row['id']; ?>&task_id=<?= $task['id']; ?>"
-                    class="delete-btn"
-                    onclick="return confirm('Delete Comment?')"
-                >
-                    Delete
-                </a>
+            <a
+                href="navigation/edit_comment.php?id=<?= $row['id']; ?>"
+                class="edit-btn"
+            >
+                Edit
+            </a>
 
-            </div>
+            <a
+                href="navigation/comment_actions.php?action=delete&id=<?= $row['id']; ?>&task_id=<?= $task['id']; ?>"
+                class="delete-btn"
+                onclick="return confirm('Delete Comment?')"
+            >
+                Delete
+            </a>
+
+            <?php endif; ?>
 
         </div>
 
-        <?php endwhile; ?>
+    </div>
+
+            <?php endwhile; ?>
 
         <hr><br>
 
@@ -222,12 +236,6 @@ $comments = $commentModel->getByTaskId($task_id);
                 type="hidden"
                 name="task_id"
                 value="<?= $task['id']; ?>"
-            >
-
-            <input
-                type="hidden"
-                name="user_id"
-                value="<?= $_SESSION['user_id']; ?>"
             >
 
             <input
