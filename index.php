@@ -102,7 +102,7 @@ $taskResult = $taskModel->getTasks();
 
         <h2>Add Task</h2>
 
-        <form action="navigation/task_actions.php" method="POST">
+        <form class="task-form" action="navigation/task_actions.php" method="POST">
 
             <input
                 type="hidden"

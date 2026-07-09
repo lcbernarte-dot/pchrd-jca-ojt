@@ -102,8 +102,5 @@ $userResult = $userModel->getUsers();
     
             <?php include "views/UserViews.php"; ?>
 </div>
-
-
-
 </body>
 </html>

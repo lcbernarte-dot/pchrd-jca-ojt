@@ -65,12 +65,23 @@ $comments = $commentModel->getByTaskId($task_id);
 
             <br>
 
-            <p>
-                <strong>Status:</strong>
-                <?= $task['status']; ?>
-            </p>
+            <p><strong>Status:</strong> <?= $task['status']; ?></p>
+
+        <div class="task-datetime">
+
+                <span>
+                    🕒 <strong>Created:</strong>
+                    <?= date("F d, Y h:i A", strtotime($task['created_at'])); ?>
+                </span>
+
+                <span>
+                    ✏️ <strong>Updated:</strong>
+                    <?= date("F d, Y h:i A", strtotime($task['updated_at'])); ?>
+                </span>
 
         </div>
+
+    </div>
 
         <div class="task-actions">
 
@@ -139,7 +150,7 @@ $comments = $commentModel->getByTaskId($task_id);
         
             <?php if($isOwner || $isAdmin): ?>
 
-        <form action="navigation/subtask_actions.php" method="POST">
+        <form class="task-form" action="navigation/subtask_actions.php" method="POST">
 
             <input
                 type="hidden"
@@ -185,46 +196,74 @@ $comments = $commentModel->getByTaskId($task_id);
 
         <h2>Comments</h2>
 
-            <?php while($row = $comments->fetch_assoc()): ?>
-
-        <div class="item-row">
-
-            <span><?= $row['comment']; ?></span>
-
-        <div>
             <?php
-            $canManageComment=
-                ($_SESSION['user_id']==$row['user_id']) || $isAdmin;
+            $groupedComments = [];
+
+            while($row = $comments->fetch_assoc()){
+                $name = $row['first_name'] . ' ' . $row['last_name'];
+
+                $groupedComments[$name][] = $row;
+            }
             ?>
 
-            <?php if ($canManageComment): ?>
+            <?php foreach($groupedComments as $name => $userComments): ?>
 
-            <a
-                href="navigation/edit_comment.php?id=<?= $row['id']; ?>"
-                class="edit-btn"
-            >
-                Edit
-            </a>
+            <div class="comment-box">
 
-            <a
-                href="navigation/comment_actions.php?action=delete&id=<?= $row['id']; ?>&task_id=<?= $task['id']; ?>"
-                class="delete-btn"
-                onclick="return confirm('Delete Comment?')"
-            >
-                Delete
-            </a>
+                <div class="comment-top">
 
-            <?php endif; ?>
+                    <div class="comment-name">
+                        <strong><?= htmlspecialchars($name); ?></strong>
+                    </div>
+
+                </div>
+
+                <div class="comment-body">
+
+            <?php foreach($userComments as $comment): ?>
+
+            <?php
+            $canManageComment =
+                ($_SESSION['user_id'] == $comment['user_id']) || $isAdmin;
+            ?>
+
+            <div class="comment-item">
+
+                <div class="comment-text">
+                    • <?= htmlspecialchars($comment['comment']); ?>
+                </div>
+
+                <?php if($canManageComment): ?>
+
+                <div class="comment-actions">
+
+                    <a href="navigation/edit_comment.php?id=<?= $comment['id']; ?>"
+                    class="edit-btn">
+                        Edit
+                    </a>
+
+                    <a href="navigation/comment_actions.php?action=delete&id=<?= $comment['id']; ?>&task_id=<?= $task['id']; ?>"
+                    class="delete-btn">
+                        Delete
+                    </a>
+
+                </div>
+
+                <?php endif; ?>
+
+            </div>
+
+            <?php endforeach; ?>
 
         </div>
 
     </div>
 
-            <?php endwhile; ?>
+            <?php endforeach; ?>
 
         <hr><br>
 
-        <form action="navigation/comment_actions.php" method="POST">
+        <form class="comment-form" action="navigation/comment_actions.php" method="POST">
 
             <input
                 type="hidden"
