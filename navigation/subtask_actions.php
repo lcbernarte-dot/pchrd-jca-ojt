@@ -100,14 +100,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         SELECT tasks.user_id
         FROM sub_tasks
         JOIN tasks
-        ON sub_tasks.task_id=tasks.id
-        WHERE sub_tasks.id=?
+            ON sub_tasks.task_id=tasks.id
+        WHERE sub_tasks.id=?    
         ");
 
-    $stmt->bind_param("i", $_POST['id']);
+    $stmt->bind_param("i", $_GET['id']);
     $stmt->execute();
 
     $owner = $stmt->get_result()->fetch_assoc();
+
+    if(!$owner) {
+        die("Subtask not found.");
+    }
 
     if (
         $_SESSION['user_id'] != $owner['user_id']
@@ -128,9 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         );
         $updateTask->execute();
 
-        header(
-            "Location: ../task_details.php?id=" .
-            $_GET['task_id']
-        );
+        header("Location: ../task_details.php?id=" . $_GET['task_id']);
         exit;
+
     }

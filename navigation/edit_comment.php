@@ -11,7 +11,7 @@ session_start();
 $stmt = $db->prepare(
     "SELECT
         comments.*,
-        tasks.user_id
+        tasks.user_id AS task_owner
     FROM comments
     INNER JOIN tasks
         ON comments.task_id = tasks.id

@@ -28,7 +28,7 @@ session_start();
         }
         ?>
 
-        <form action="Sessions/process_register.php" method="POST">
+        <form action="Sessions/process_register.php" method="POST" class="register-form">
 
             <input
                 type="text"

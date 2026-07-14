@@ -92,11 +92,14 @@ $comments = $commentModel->getByTaskId($task_id);
 
             <?php if($isOwner || $isAdmin): ?>
 
-            <a href="navigation/edit_task.php?id=<?= $task['id']; ?>" class="edit-btn">
+            <a href="navigation/edit_task.php?id=<?= $task['id']; ?>" 
+            class="edit-btn">
                 Edit Task
             </a>
 
-            <a href="navigation/task_actions.php?action=delete&id=<?= $task['id']; ?>" class="delete-btn">
+            <a href="navigation/task_actions.php?action=delete&id=<?= $task['id']; ?>" 
+            class="delete-btn"
+            onclick="return confirm('Delete Subtask?')">
                 Delete Task
             </a>    
 
@@ -125,16 +128,14 @@ $comments = $commentModel->getByTaskId($task_id);
 
             <?php if($isOwner || $isAdmin): ?>
 
-                <a
-                    href="navigation/edit_subtask.php?id=<?= $row['id']; ?>"
-                    class="edit-btn">
+                <a href="navigation/edit_subtask.php?id=<?= $row['id']; ?>"
+                class="edit-btn">
                     Edit
                 </a>
 
-                <a
-                    href="navigation/subtask_actions.php?action=delete&id=<?= $row['id']; ?>"
-                    class="delete-btn"
-                    onclick="return confirm('Delete Subtask?')">
+                <a href="navigation/subtask_actions.php?action=delete&id=<?= $row['id']; ?>&task_id=<?= $task['id']; ?>"
+                class="delete-btn"
+                onclick="return confirm('Delete Subtask?')">
                     Delete
                 </a>
 
@@ -243,7 +244,8 @@ $comments = $commentModel->getByTaskId($task_id);
                     </a>
 
                     <a href="navigation/comment_actions.php?action=delete&id=<?= $comment['id']; ?>&task_id=<?= $task['id']; ?>"
-                    class="delete-btn">
+                    class="delete-btn"
+                    onclick="return confirm('Delete Comment?')">
                         Delete
                     </a>
 

@@ -12,7 +12,6 @@ $email      = trim($_POST['email']);
 $password   = $_POST['password'];
 $role       = "user";
 
-// Check if email already exists
 $check = $db->prepare(
     "SELECT id FROM users WHERE email = ?"
 );
@@ -30,13 +29,11 @@ if($result->num_rows > 0){
     exit;
 }
 
-// Encrypt password
 $hashedPassword = password_hash(
     $password,
     PASSWORD_DEFAULT
 );
 
-// Insert user
 $stmt = $db->prepare(
     "INSERT INTO users
     (first_name,last_name,email,password,role)

@@ -97,10 +97,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "SELECT user_id FROM comments WHERE id=?"
             );
 
-        $stmt->bind_param("i",$_POST['id']);
+        $stmt->bind_param("i",$_GET['id']);
         $stmt->execute();
 
         $owner=$stmt->get_result()->fetch_assoc();
+        
+        if (!$owner) {
+            die("Comment not found.");
+        }
 
         if(
         $_SESSION['user_id']!=$owner['user_id']
